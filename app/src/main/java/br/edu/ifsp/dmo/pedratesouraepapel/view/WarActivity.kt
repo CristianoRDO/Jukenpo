@@ -10,9 +10,13 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import br.edu.ifsp.dmo.pedratesouraepapel.R
 import br.edu.ifsp.dmo.pedratesouraepapel.databinding.ActivityWarBinding
+import br.edu.ifsp.dmo.pedratesouraepapel.model.Paper
 import br.edu.ifsp.dmo.pedratesouraepapel.model.Player
+import br.edu.ifsp.dmo.pedratesouraepapel.model.Rock
+import br.edu.ifsp.dmo.pedratesouraepapel.model.Scissors
 import br.edu.ifsp.dmo.pedratesouraepapel.model.War
 import br.edu.ifsp.dmo.pedratesouraepapel.model.Weapon
+import kotlin.random.Random
 
 class WarActivity: AppCompatActivity() {
     private lateinit var binding: ActivityWarBinding
@@ -20,10 +24,10 @@ class WarActivity: AppCompatActivity() {
     private lateinit var war: War
     private var weaponPlayer1: Weapon? = null
     private var weaponPlayer2: Weapon? = null
+    private var activeBot: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityWarBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -36,23 +40,31 @@ class WarActivity: AppCompatActivity() {
     private fun battle(){
         val winner: Player?
 
+        if(activeBot){
+            chooseWeaponBot()
+        }
+
         if(weaponPlayer1 != null && weaponPlayer2 != null){
             winner = war.toBattle(weaponPlayer1!!, weaponPlayer2!!)
             if(winner != null){
-                Toast.makeText(this,
+                Toast.makeText(
+                    this,
                     "${getString(R.string.winner)} ${winner.name}",
                     Toast.LENGTH_LONG
                 ).show()
             }
             else{
-                Toast.makeText(this,
-                    "${getString(R.string.draw)}",
+                Toast.makeText(
+                    this,
+                    getString(R.string.draw),
                     Toast.LENGTH_LONG
                 ).show()
             }
 
             weaponPlayer1 = null
             weaponPlayer2 = null
+
+            updateScoreBoard()
 
             if(!war.has_buttles()){
                 proclaimWinner()
@@ -97,8 +109,9 @@ class WarActivity: AppCompatActivity() {
     private fun openBundle() {
         val extras = intent.extras
         if (extras != null) {
+            activeBot = extras.getBoolean(Constants.KEY_ACTIVATE_BOT)
             val p1 = extras.getString(Constants.KEY_PLAYER_1)
-            val p2 = extras.getString(Constants.KEY_PLAYER_2)
+            val p2 = if (activeBot) getString(R.string.bot_name) else extras.getString(Constants.KEY_PLAYER_2)
             val number = extras.getInt(Constants.KEY_ROUNDS)
             war = War(number, p1!!, p2!!)
         }
@@ -129,11 +142,28 @@ class WarActivity: AppCompatActivity() {
     private fun updateUI() {
         val str = "${war.opponent1.name} X ${war.opponent2.name}"
         actionBar?.setTitle(str)
+
+        if(activeBot){
+            binding.buttonWeapon2.visibility = View.GONE
+        }
+
         binding.labelPlayer1.text = war.opponent1.name
         binding.labelPlayer2.text = war.opponent2.name
         updateScoreBoard()
         binding.buttonWeapon1.text = "${war.opponent1.name} ${getString(R.string.gum_selection)}"
         binding.buttonWeapon2.text = "${war.opponent2.name} ${getString(R.string.gum_selection)}"
+    }
+
+    private fun chooseWeaponBot() {
+        val randomNumber = Random.nextInt(1, 4)
+        val chosenWeapon = when (randomNumber) {
+            1 -> Rock
+            2 -> Paper
+            3 -> Scissors
+            else -> null
+        }
+
+        weaponPlayer2 = chosenWeapon
     }
 
 }

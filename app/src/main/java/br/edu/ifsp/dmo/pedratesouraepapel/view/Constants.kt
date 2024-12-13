@@ -1,6 +1,7 @@
 package br.edu.ifsp.dmo.pedratesouraepapel.view
 
 object Constants {
+    const val KEY_ACTIVATE_BOT = "activate_bot"
     const val KEY_PLAYER_1 = "opponent_1"
     const val KEY_PLAYER_2 = "opponent_2"
     const val KEY_ROUNDS = "rounds"

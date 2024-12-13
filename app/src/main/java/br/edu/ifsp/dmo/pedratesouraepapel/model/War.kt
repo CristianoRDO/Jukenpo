@@ -28,7 +28,7 @@ class War(buttles: Int, player1: String, player2: String) {
         var winner: Player? = null
 
         if(has_buttles()){
-            if(player1Weapon != player2Weapon){
+            if(player1Weapon.javaClass != player2Weapon.javaClass){
                 winner = when{
                     player1Weapon is Rock && player2Weapon is Scissors -> opponent1
                     player1Weapon is Scissors && player2Weapon is Paper -> opponent1

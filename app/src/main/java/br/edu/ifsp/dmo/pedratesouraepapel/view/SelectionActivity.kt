@@ -20,12 +20,15 @@ class SelectionActivity: AppCompatActivity(), OnClickListener {
         super.onCreate(savedInstanceState)
         binding = ActivitySelectionBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         var name: String? = ""
+
         val extras = intent.extras
         if (extras != null) {
             name = extras.getString(Constants.KEY_PLAYER_NAME)
             number = extras.getInt(Constants.KEY_PLAYER_NUMBER)
         }
+
         actionBar?.hide()
 
         binding.textviewMessage.text = "$name${getString(R.string.choose_gum)}"
