@@ -70,7 +70,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         Toast.makeText(this,
-            "Preencha os Campos de Nome",
+            getString(R.string.message_empty_name),
             Toast.LENGTH_LONG
         ).show()
 

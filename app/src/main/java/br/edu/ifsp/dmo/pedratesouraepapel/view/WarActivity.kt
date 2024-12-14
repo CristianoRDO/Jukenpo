@@ -24,7 +24,6 @@ class WarActivity: AppCompatActivity() {
     private lateinit var war: War
     private var weaponPlayer1: Weapon? = null
     private var weaponPlayer2: Weapon? = null
-    private var activeBot: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +39,7 @@ class WarActivity: AppCompatActivity() {
     private fun battle(){
         val winner: Player?
 
-        if(activeBot){
+        if(war.getStatusBot()){
             chooseWeaponBot()
         }
 
@@ -79,7 +78,7 @@ class WarActivity: AppCompatActivity() {
             }
 
             Toast.makeText(this,
-                "$name${getString(R.string.chhose_gum_player)}",
+                "$name${getString(R.string.chose_gum_player)}",
                 Toast.LENGTH_LONG
             ).show()
         }
@@ -109,11 +108,11 @@ class WarActivity: AppCompatActivity() {
     private fun openBundle() {
         val extras = intent.extras
         if (extras != null) {
-            activeBot = extras.getBoolean(Constants.KEY_ACTIVATE_BOT)
+            val activeBot = extras.getBoolean(Constants.KEY_ACTIVATE_BOT)
             val p1 = extras.getString(Constants.KEY_PLAYER_1)
             val p2 = if (activeBot) getString(R.string.bot_name) else extras.getString(Constants.KEY_PLAYER_2)
             val number = extras.getInt(Constants.KEY_ROUNDS)
-            war = War(number, p1!!, p2!!)
+            war = War(number, p1!!, p2!!, activeBot)
         }
     }
 
@@ -143,7 +142,7 @@ class WarActivity: AppCompatActivity() {
         val str = "${war.opponent1.name} X ${war.opponent2.name}"
         actionBar?.setTitle(str)
 
-        if(activeBot){
+        if(war.getStatusBot()){
             binding.buttonWeapon2.visibility = View.GONE
         }
 

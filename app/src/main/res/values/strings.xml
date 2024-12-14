@@ -5,8 +5,7 @@
     <string name="draw">Empate, rodada desconsiderada.</string>
     <string name="won_the_march">" venceu o confronto."</string>
     <string name="choose_gum">" deve escolher uma arma."</string>
-    <string name="chhose_gum_player">, selecione qual a arma que
-    utilizará no confronto:</string>
+    <string name="chose_gum_player">, selecione qual a arma que utilizará no confronto:</string>
     <string name="rock">Pedra</string>
     <string name="scissors">Tesoura</string>
     <string name="paper">Papel</string>
@@ -18,4 +17,5 @@
     <string name="start_game">Iniciar Jogo</string>
     <string name="bot">Jogar contra BOT</string>
     <string name="bot_name">BOT</string>
+    <string name="message_empty_name">Por Favor, Preencha Todos os Campos de Nome</string>
 </resources>

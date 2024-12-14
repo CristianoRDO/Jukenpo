@@ -1,8 +1,9 @@
 package br.edu.ifsp.dmo.pedratesouraepapel.model
 
-class War(buttles: Int, player1: String, player2: String) {
+class War(buttles: Int, player1: String, player2: String, activeBot: Boolean) {
     private var buttle: Int = 0
     private var foughtButtle: Int = 0
+    private var bot: Boolean = activeBot
     val opponent1: Player = Player(player1)
     val opponent2: Player = Player(player2)
 
@@ -47,6 +48,8 @@ class War(buttles: Int, player1: String, player2: String) {
     }
 
     fun has_buttles() = foughtButtle < buttle
+
+    fun getStatusBot() : Boolean = bot
 }
 
 class NoWarFinishException(msg: String) : Exception(msg)
